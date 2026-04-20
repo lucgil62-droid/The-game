@@ -1,0 +1,42 @@
+[gd_scene load_steps=8 format=3 uid="uid://de835crdrdpxd"]
+
+[ext_resource type="Script" uid="uid://cvfp47qe11apg" path="res://player.gd" id="1_cxr5p"]
+[ext_resource type="Texture2D" uid="uid://rwrrqxx550r" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_1.png" id="1_e80uo"]
+[ext_resource type="Texture2D" uid="uid://biwoea15st6g3" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_2.png" id="2_cxr5p"]
+[ext_resource type="Texture2D" uid="uid://bucn6kluqmurk" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_3.png" id="3_tdg3f"]
+[ext_resource type="Texture2D" uid="uid://o3kc0nn45taq" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_4.png" id="4_dtqjt"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5ncpa"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_e80uo")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_cxr5p")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_tdg3f")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dtqjt")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_wi0c6"]
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = ExtResource("1_cxr5p")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5ncpa")
+autoplay = "default"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_wi0c6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../CollisionShape2D")
