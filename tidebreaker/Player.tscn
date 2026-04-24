@@ -1,9 +1,31 @@
-[gd_scene load_steps=7 format=3 uid="uid://de835crdrdpxd"]
+[gd_scene load_steps=8 format=3 uid="uid://de835crdrdpxd"]
 
 [ext_resource type="Texture2D" uid="uid://rwrrqxx550r" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_1.png" id="1_e80uo"]
 [ext_resource type="Texture2D" uid="uid://biwoea15st6g3" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_2.png" id="2_cxr5p"]
 [ext_resource type="Texture2D" uid="uid://bucn6kluqmurk" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_3.png" id="3_tdg3f"]
 [ext_resource type="Texture2D" uid="uid://o3kc0nn45taq" path="res://Assets/Tiny Blue Shark Assets/Fish/seaturtle_4.png" id="4_dtqjt"]
+
+[sub_resource type="GDScript" id="GDScript_e80uo"]
+script/source = "extends CharacterBody2D
+@export var speed=300
+@onready var sprite=$AnimatedSprite2D
+
+	
+func get_input():
+	var input_direction=Input.get_vector(\"left\",\"right\",\"up\",\"down\")
+	velocity=input_direction*speed
+
+
+func  _physics_process(delta: float) -> void:
+	get_input()
+	if velocity.x>0:
+		sprite.flip_h=false
+	elif velocity.x<0:
+		sprite.flip_h=true
+	
+	move_and_slide()
+	
+"
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5ncpa"]
 animations = [{
@@ -29,6 +51,7 @@ animations = [{
 size = Vector2(23, 13)
 
 [node name="CharacterBody2D" type="CharacterBody2D"]
+script = SubResource("GDScript_e80uo")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 scale = Vector2(-1, 1)
