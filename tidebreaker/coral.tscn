@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://bwcxy7t4gv2h7"]
+
+[ext_resource type="Texture2D" uid="uid://ddrrtgpp7l2pa" path="res://Assets/Tiny Blue Shark Assets/Tileset & Background/Collectable.png" id="1_17ap4"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_umlxl"]
+atlas = ExtResource("1_17ap4")
+region = Rect2(0, 0, 14, 10)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_718ys"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_umlxl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rr0gd"]
+radius = 8.0
+
+[node name="coral" type="Area2D"]
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_718ys")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
+shape = SubResource("CircleShape2D_rr0gd")
