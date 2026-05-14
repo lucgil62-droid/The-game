@@ -1,0 +1,125 @@
+[gd_scene load_steps=14 format=3 uid="uid://btso0deq63akj"]
+
+[ext_resource type="Texture2D" uid="uid://dgei0wjfg0h14" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_1.png" id="1_ocxqc"]
+[ext_resource type="Texture2D" uid="uid://nuivrrnfn4pj" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_2.png" id="2_sd3ew"]
+[ext_resource type="Texture2D" uid="uid://0oljp4adewxl" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_3.png" id="3_lnlia"]
+[ext_resource type="Texture2D" uid="uid://ikvie37x78lj" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_4.png" id="4_dyvsu"]
+[ext_resource type="Texture2D" uid="uid://cmjbqteeownk2" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_attack_1.png" id="5_bjcji"]
+[ext_resource type="Texture2D" uid="uid://deuef12rmwj5p" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_attack_2.png" id="6_8rbtx"]
+[ext_resource type="Texture2D" uid="uid://crb4vboe7bua4" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_attack_3.png" id="7_uwj5e"]
+[ext_resource type="Texture2D" uid="uid://dw4k0uf1kn0l1" path="res://Assets/Tiny Blue Shark Assets/Enemies/Enemy 1/enemy_1_attack_4.png" id="8_dak42"]
+
+[sub_resource type="GDScript" id="GDScript_ocxqc"]
+script/source = "extends CharacterBody2D
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
+
+
+const SPEED = 100.0
+var direction=1
+
+
+func move_enemy():
+	
+	velocity.x=SPEED*(direction)
+func reverse_enemy():
+	if is_on_wall():
+		direction=-direction
+		if direction > 0:
+			sprite.flip_h =true
+		elif direction < 0:
+			sprite.flip_h =false
+	
+
+
+func _physics_process(delta: float) -> void:
+	move_enemy()
+	move_and_slide()
+	reverse_enemy()
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ocxqc"]
+size = Vector2(35, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sd3ew"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_ocxqc")
+}, {
+"duration": 1.0,
+"texture": ExtResource("2_sd3ew")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_lnlia")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_dyvsu")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_bjcji")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_8rbtx")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_uwj5e")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_dak42")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="Animation" id="Animation_sd3ew"]
+length = 1.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4, 0.6, 0.8, 1, 1.2, 1.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:animation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": ["default"]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lnlia"]
+_data = {
+&"default": SubResource("Animation_sd3ew")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["enemy"]]
+scale = Vector2(0.6, 0.6)
+script = SubResource("GDScript_ocxqc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, 1)
+shape = SubResource("RectangleShape2D_ocxqc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." groups=["enemy"]]
+sprite_frames = SubResource("SpriteFrames_sd3ew")
+autoplay = "default"
+flip_h = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../AnimatedSprite2D")
+libraries = {
+&"": SubResource("AnimationLibrary_lnlia")
+}
